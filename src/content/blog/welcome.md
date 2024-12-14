@@ -2,7 +2,7 @@
 title: "Welcome to My Blog"
 description: "This is my first blog post! Learn more about me and what I'll be writing about."
 pubDate: 2024-03-20
-image: "/images/welcome.jpg"
+image: "/images/b6c1eced-5920-445a-9d5c-74c439f5b118.webp"
 category: "General"
 tags: ["introduction", "welcome"]
 readingTime: 3
