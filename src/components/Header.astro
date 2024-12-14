@@ -2,25 +2,59 @@
 import ThemeToggle from './ThemeToggle.astro';
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-sm">
   <nav class="container mx-auto px-4 py-4">
     <div class="flex items-center justify-between">
-      <a href="/" class="text-2xl font-bold text-gray-800 dark:text-white">
+      <!-- Logo -->
+      <a href="/" class="text-2xl font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
         Blog
       </a>
-      
-      <div class="flex items-center space-x-6">
-        <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
           Articles
         </a>
-        <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+        <a href="/categories" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
           Categories
         </a>
-        <a href="/about" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+        <a href="/about" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
           About
         </a>
         <ThemeToggle />
       </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        id="menuToggle"
+        class="md:hidden p-2 rounded-lg text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-500"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div id="mobileMenu" class="hidden md:hidden mt-4 space-y-4">
+      <a href="/blog" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        Articles
+      </a>
+      <a href="/categories" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        Categories
+      </a>
+      <a href="/about" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        About
+      </a>
+      <ThemeToggle />
     </div>
   </nav>
 </header>
+
+<script>
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
