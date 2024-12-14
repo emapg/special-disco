@@ -1,0 +1,20 @@
+---
+interface Props {
+  categories: string[];
+}
+
+const { categories } = Astro.props;
+---
+
+<ul class="space-y-2">
+  {categories.map(category => (
+    <li>
+      <a 
+        href={`/categories/${category.toLowerCase()}`}
+        class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+      >
+        {category}
+      </a>
+    </li>
+  ))}
+</ul>

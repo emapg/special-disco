@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { getPostsByTag, getAllPosts } from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+  
+  return tags.map(tag => ({
+    params: { tag: tag.toLowerCase() },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = await getPostsByTag(tag);
+---
+
+<Layout title={`Tag: ${tag}`}>
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-white">
+      Tag: #{tag}
+    </h1>
+    
+    <div class="grid gap-8 md:grid-cols-2">
+      {posts.map(post => <PostCard post={post} />)}
+    </div>
+  </div>
+</Layout>

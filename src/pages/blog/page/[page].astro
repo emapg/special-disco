@@ -1,0 +1,55 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import Pagination from '../../../components/common/Pagination.astro';
+import CategoryList from '../../../components/blog/CategoryList.astro';
+import TagList from '../../../components/blog/TagList.astro';
+import Search from '../../../components/common/Search.astro';
+import { getAllPosts, getAllCategories, getAllTags, getPaginatedPosts } from '../../../utils/posts';
+
+export async function getStaticPaths({ paginate }: any) {
+  const posts = await getAllPosts();
+  return paginate(posts, { pageSize: 6 });
+}
+
+const { page } = Astro.props;
+const posts = await getAllPosts();
+const categories = getAllCategories(posts);
+const tags = getAllTags(posts);
+---
+
+<Layout title={`Blog - Page ${page.currentPage}`}>
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-8">
+      <Search />
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <aside class="lg:col-span-1">
+        <div class="sticky top-24">
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Categories</h2>
+            <CategoryList categories={categories} />
+          </div>
+
+          <div>
+            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Tags</h2>
+            <TagList tags={tags} />
+          </div>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-3">
+        <div class="grid gap-8 md:grid-cols-2">
+          {page.data.map(post => <PostCard post={post} />)}
+        </div>
+        
+        <Pagination 
+          currentPage={page.currentPage} 
+          totalPages={page.lastPage} 
+          baseUrl="/blog"
+        />
+      </main>
+    </div>
+  </div>
+</Layout>

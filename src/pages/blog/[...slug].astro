@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { format } from 'date-fns';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+  <article class="max-w-4xl mx-auto animate-fade-in">
+    <header class="mb-8 text-center">
+      <img 
+        src={post.data.image} 
+        alt={post.data.title}
+        class="w-full h-64 md:h-96 object-cover rounded-lg mb-8"
+      />
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+        {post.data.title}
+      </h1>
+      <div class="flex items-center justify-center space-x-4 text-gray-600 dark:text-gray-400">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {format(post.data.pubDate, 'MMMM d, yyyy')}
+        </time>
+        <span>•</span>
+        <span>{post.data.readingTime} min read</span>
+        <span>•</span>
+        <span>{post.data.category}</span>
+      </div>
+    </header>
+
+    <div class="prose dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex flex-wrap gap-2">
+        {post.data.tags.map((tag: string) => (
+          <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </footer>
+  </article>
+</Layout>

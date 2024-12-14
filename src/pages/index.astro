@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { format } from 'date-fns';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 3);
+---
+
+<Layout title="Welcome to My Blog">
+  <section class="text-center mb-16 animate-fade-in">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+      Welcome to My Blog
+    </h1>
+    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Discover interesting articles about technology, programming, and web development.
+    </p>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Latest Posts</h2>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => (
+        <article data-animate class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <a href={`/blog/${post.slug}`}>
+            <img 
+              src={post.data.image} 
+              alt={post.data.title}
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                {post.data.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 mb-4">
+                {post.data.description}
+              </p>
+              <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {format(post.data.pubDate, 'MMMM d, yyyy')}
+                </time>
+                <span class="mx-2">•</span>
+                <span>{post.data.readingTime} min read</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+    <div class="text-center mt-8">
+      <a 
+        href="/blog" 
+        class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+      >
+        View All Posts
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "A modern blog built with Astro" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <Header />
+    <main class="container mx-auto px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  import { animate, stagger } from "motion";
+
+  // Animate elements with data-animate attribute
+  animate(
+    "[data-animate]",
+    { 
+      opacity: [0, 1],
+      y: [20, 0]
+    },
+    { 
+      duration: 0.5,
+      delay: stagger(0.1),
+      easing: "ease-out"
+    }
+  );
+</script>
+
+<style is:global>
+  :root {
+    --accent: 136, 58, 234;
+    --accent-light: 224, 204, 250;
+    --accent-dark: 49, 10, 101;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
