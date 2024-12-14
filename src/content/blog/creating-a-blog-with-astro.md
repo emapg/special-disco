@@ -2,7 +2,7 @@
 title: "Creating a blog with Astro"
 description: "This is my first blog post! Learn more about me and what I'll be writing about."
 pubDate: 2024-03-20
-image: "/images/astro.jpg"
+image: "/images/75dea97e-293f-433b-982f-757c26650a08.webp"
 category: "General"
 tags: ["introduction", "welcome"]
 readingTime: 3
